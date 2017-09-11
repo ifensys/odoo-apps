@@ -1,0 +1,15 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+
+# Translations
+*.mo
+*.pot
+
+# Django stuff:
+*.log
+
+# Eclipse project
+.settings/
+.project
+.pydevproject

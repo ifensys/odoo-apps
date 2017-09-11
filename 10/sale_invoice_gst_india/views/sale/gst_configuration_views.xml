@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+        
+        <!-- GST Number form view  -->
+		<record id="gst_configuration_view_tree" model="ir.ui.view">
+			<field name="name">gst.configuration.tree</field>
+			<field name="model">gst.configuration</field>
+			<field name="arch" type="xml">
+				<tree string="GST Configuration">
+					<field name="name" />
+				</tree>
+			</field>
+		</record>
+		
+		<record id="gst_configuration_view_form" model="ir.ui.view">
+			<field name="name">gst.configuration.form</field>
+			<field name="model">gst.configuration</field>
+			<field name="arch" type="xml">
+				<form string="GST Number">
+					<sheet>
+						<group>
+							<group>
+								<field name="name" />
+							</group>
+							<group></group>
+						</group>
+					</sheet>
+				</form>
+			</field>
+		</record>
+		
+		<record id="view_gst_configuration_filter" model="ir.ui.view">
+			<field name="name">gst.configuration.select</field>
+			<field name="model">gst.configuration</field>
+			<field name="arch" type="xml">
+				<search string="GST Number">
+					<field name="name"/>
+			   </search>
+			</field>
+		</record>
+
+		<record id="gst_configuration_action" model="ir.actions.act_window">
+			<field name="name">GST Number</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">gst.configuration</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+			<field name="search_view_id" ref="view_gst_configuration_filter"/>
+			<field name="help" type="html">
+				<p class="oe_view_nocontent_create">
+					Click to add a new GST number.
+				</p>
+			</field>
+		</record>
+		
+		<!--End  -->
+		
+		<!-- OUR GST Number form view  -->
+		<record id="our_gst_configuration_view_tree" model="ir.ui.view">
+			<field name="name">our.gst.configuration.tree</field>
+			<field name="model">our.gst.configuration</field>
+			<field name="arch" type="xml">
+				<tree string="Our GST Number">
+					<field name="name" />
+				</tree>
+			</field>
+		</record>
+		
+		<record id="our_gst_configuration_view_form" model="ir.ui.view">
+			<field name="name">our.gst.configuration.form</field>
+			<field name="model">our.gst.configuration</field>
+			<field name="arch" type="xml">
+				<form string="Our GST Number">
+					<sheet>
+						<group>
+							<group>
+								<field name="name" />
+							</group>
+							<group></group>
+						</group>
+					</sheet>
+				</form>
+			</field>
+		</record>
+		
+		<record id="view_our_gst_configuration_filter" model="ir.ui.view">
+			<field name="name">our.gst.configuration.select</field>
+			<field name="model">our.gst.configuration</field>
+			<field name="arch" type="xml">
+				<search string="Our GST Number">
+					<field name="name"/>
+			   </search>
+			</field>
+		</record>
+
+		<record id="our_gst_configuration_action" model="ir.actions.act_window">
+			<field name="name">Our GST Number</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">our.gst.configuration</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+			<field name="search_view_id" ref="view_our_gst_configuration_filter"/>
+			<field name="help" type="html">
+				<p class="oe_view_nocontent_create">
+					Click to add a new GST number.
+				</p>
+			</field>
+		</record>
+		
+		<!--End  -->
+        
+                
+	</data>
+</odoo>

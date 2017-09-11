@@ -1,0 +1,13 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+,,,,,,,
+access_gst_configuration,gst.configuration,model_gst_configuration,sales_team.group_sale_salesman,1,1,1,0
+access_our_gst_configuration,our.gst.configuration,model_our_gst_configuration,sales_team.group_sale_salesman,1,1,1,1
+,,,,,,,
+access_product_uom_categ_sale_manager,gst.configuration,model_gst_configuration,sales_team.group_sale_manager,1,1,1,1
+access_product_uom_categ_sale_manager,our.gst.configuration,model_our_gst_configuration,sales_team.group_sale_manager,1,1,1,1
+,,,,,,,
+access_sale_order_line_accountant,gst.configuration,model_gst_configuration,account.group_account_user,1,1,1,1
+access_sale_order_line_accountant,our.gst.configuration,model_our_gst_configuration,account.group_account_user,1,1,1,1
+,,,,,,,
+access_sale_order_invoicing_payments,gst.configuration,model_gst_configuration,account.group_account_invoice,1,1,1,1
+access_sale_order_invoicing_payments,our.gst.configuration,model_our_gst_configuration,account.group_account_invoice,1,1,1,1

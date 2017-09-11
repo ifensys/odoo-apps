@@ -1,0 +1,378 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<data>
+<template id="account.report_invoice_document">
+    <t t-call="report.external_layout">
+        <t t-set="o" t-value="o.with_context({'lang':o.partner_id.lang})" />
+        <div class="page">
+        <style>
+        	.full_border{
+        		border:1px solid black;
+        	}
+        </style>
+            <div class="row">
+                <div name="invoice_address" class="col-xs-5 col-xs-offset-7">
+                   <!--  <address t-field="o.partner_id"
+                        t-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": True}' />
+                    <span t-if="o.partner_id.vat">TIN: <span t-field="o.partner_id.vat"/></span> -->
+                </div>
+            </div>
+            <div name="reference" class="col-xs-2" t-if="o.reference and o.type == 'in_invoice'">
+                    <strong>Reference:</strong>
+                    <!-- <p t-field="o.reference"/> -->
+               </div>
+            
+            
+            <h2> </h2>
+            
+            <table style="width:101%">
+				<tr >
+					<td colspan="8" class="full_border" style="font-size:16px;text-align:center;">
+						<span style="font-weight:bold;font-size:16px;">GST INVOICE </span>
+					</td>
+				</tr>
+				
+				<tr>
+					<th class="full_border" style="padding:5px;font-size:16px;width: 166px;">Customer Name</th>
+					<td style="padding:5px;font-size:16px;border:1px solid black;width: 166px;">
+						<span t-field="o.partner_id.name" />
+					</td>
+					<th style="padding:5px;font-size:16px;border:1px solid black;width: 166px;">State</th>
+					<td style="padding:5px;font-size:16px;border:1px solid black;width: 166px;">
+						<span t-field="o.partner_id.state_id.name" />
+					</td>
+					<th style="padding:5px;font-size:16px;border:1px solid black;width: 166px;">Invoice Number</th>
+					<td style="padding:5px;font-size:16px;border:1px solid black;width: 166px;">
+						<span t-field="o.number" />
+					</td>
+					
+					<th style="padding:5px;font-size:16px;border:1px solid black;width: 166px;">Account Details</th>
+					<td style="padding:5px;font-size:16px;border:1px solid black;width: 166px;">
+						<span>SUNSHELL POWER</span>
+					</td>
+				</tr>
+				
+				<tr>
+					<th style="padding:5px;font-size:16px;border:1px solid black;width: 166px;">Receiver(Bill to)</th>
+					<td style="padding:5px;font-size:16px;border:1px solid black;width: 166px;">
+						<span t-field="o.partner_id.street" /><span t-field="o.partner_id.street2" /><span t-field="o.partner_id.phone" />
+					</td>
+					<th style="padding:5px;font-size:16px;border:1px solid black;width: 166px;">PIN</th>
+					<td style="padding:5px;font-size:16px;border:1px solid black;width: 166px;">
+						 <span t-field="o.partner_id.zip" />
+					</td>
+					
+					<th style="padding:5px;font-size:16px;border:1px solid black;width: 166px;">Invoice Date</th>
+					<td style="padding:5px;font-size:16px;border:1px solid black;width: 166px;">
+						 <span t-field="o.date_invoice" />
+					</td>
+					<th style="padding:5px;font-size:16px;border:1px solid black;width: 166px;">Account Number</th>
+					<td style="padding:5px;font-size:16px;border:1px solid black;width: 166px;">
+						<span>98205001055</span>
+					</td>
+					
+				</tr>
+				
+				<tr>
+					<th style="padding:5px;font-size:16px;border:1px solid black;width: 166px;">Consignee(Ship to)</th>
+					<td style="padding:5px;font-size:16px;border:1px solid black;width: 166px;">
+						<span t-field="o.partner_shipping_id.street" /><span t-field="o.partner_shipping_id.street2" /><span t-field="o.partner_shipping_id.phone" />
+					</td>
+					<th style="padding:5px;font-size:16px;border:1px solid black;width: 166px;">Contact No</th>
+					<td style="padding:5px;font-size:16px;border:1px solid black;width: 166px;">
+						<span t-field="o.contact_number" />
+					</td>
+					
+					<th style="padding:5px;font-size:16px;border:1px solid black;width: 166px;">Transport Mode</th>
+					<td style="padding:5px;font-size:16px;border:1px solid black;width: 166px;">
+						 <span t-field="o.transport_mode" />
+					</td>
+					<th style="padding:5px;font-size:16px;border:1px solid black;width: 166px;">IFSC</th>
+					<td style="padding:5px;font-size:16px;border:1px solid black;width: 166px;">
+						<span> ICIC0000982</span>
+					</td>
+				</tr>
+				
+				<tr>
+					<th style="padding:5px;font-size:16px;border:1px solid black;width: 166px;">GSTIN ID</th>
+					<td style="padding:5px;font-size:16px;border:1px solid black;width: 166px;">
+						<span t-field="o.gst_number_id.name" />
+					</td>
+					<th style="padding:5px;font-size:16px;border:1px solid black;width: 166px;">Reference</th>
+					<td style="padding:5px;font-size:16px;border:1px solid black;width: 166px;">
+						<span t-field="o.name" />
+					</td>
+					
+					<th style="padding:5px;font-size:16px;border:1px solid black;width: 166px;">Transport Company</th>
+					<td style="padding:5px;font-size:16px;border:1px solid black;width: 166px;">
+						 <span t-field="o.transport_company" />
+					</td>
+					<th style="padding:5px;font-size:16px;border:1px solid black;width: 166px;">Our GST Number</th>
+					<td style="padding:5px;font-size:16px;border:1px solid black;width: 166px;">
+						<span t-field="o.our_gst_number_id.name" />
+					</td>
+				</tr>
+				
+				
+			</table>
+			<table style="width:101%">
+			 	<tr >
+					<td colspan="15" class="full_border" style="font-size:16px;">
+						<span style="font-weight:bold;font-size:16px;">Item  Details: </span>
+					</td>
+				</tr>
+			</table>
+			
+			 <table style="width:100%">
+				<thead>
+					<tr>
+						<th rowspan="2" class="full_border" style="padding:5px;font-size:16px;text-align: center;width:2%;">Sr. No.</th>
+						<th rowspan="2" style="padding:5px;font-size:16px;border:1px solid black;text-align: center;width:21%;">Product Description</th>
+						<th rowspan="2" style="padding:5px;font-size:16px;border:1px solid black;text-align: center;width:10%;">HSN/SAC Code</th>
+						<th rowspan="2" style="padding:5px;font-size:16px;border:1px solid black;text-align: center;width:2%;">Qty</th>
+						<th rowspan="2" style="padding:5px;font-size:16px;border:1px solid black;text-align: center;width:2%;">Unit</th>
+						<th rowspan="2" style="padding:5px;font-size:16px;border:1px solid black;text-align: center;width:2%;">Rate</th>
+						<th rowspan="2" style="padding:5px;font-size:16px;border:1px solid black;text-align: center;width:3%;">Total Sale</th>
+						<th rowspan="2" style="padding:5px;font-size:16px;border:1px solid black;text-align: center;width:3%;">Disc.</th>
+						<th rowspan="2" style="padding:5px;font-size:16px;border:1px solid black;text-align: center;width:4%;">Taxable Value</th>
+						<th colspan="2" style="padding:5px;font-size:16px;border:1px solid black;text-align:center;;width:17%;">CGST</th>
+						<th colspan="2" style="padding:5px;font-size:16px;border:1px solid black;text-align:center;;width:17%;">SGST</th>
+						<th colspan="2" style="padding:5px;font-size:16px;border:1px solid black;text-align:center;width:17%;">IGST</th>
+					</tr>
+					<tr>
+						<th style="height: 32px;border: 1px solid #4c4c4c;border-collapse: collapse;padding:5px;text-align: center">Rate %</th>
+						<th style="height: 32px;border: 1px solid #4c4c4c;border-collapse: collapse;padding:5px;text-align: center">Amount</th>
+						<th style="height: 32px;border: 1px solid #4c4c4c;border-collapse: collapse;padding:5px;text-align: center">Rate %</th>
+						<th style="height: 32px;border: 1px solid #4c4c4c;border-collapse: collapse;padding:5px;text-align: center">Amount</th>
+						<th style="height: 32px;border: 1px solid #4c4c4c;border-collapse: collapse;padding:5px;text-align: center">Rate %</th>
+						<th style="height: 32px;border: 1px solid #4c4c4c;border-collapse: collapse;padding:5px;text-align: center">Amount</th>
+					</tr>
+				</thead>
+				<tbody>
+					<t t-set="colcount" t-value="0" />
+					<t t-set="sale_total" t-value="0" />
+					
+					<t t-set="sale_total" t-value="0" />
+					<t t-set="dis_total" t-value="0" />
+					<t t-set="total_taxable" t-value="0" />
+					<t t-set="gst_amt" t-value="0" />
+					<t t-set="sgst_amt" t-value="0" />
+					<t t-set="igst_amt" t-value="0" />
+					
+					<t t-foreach="o.invoice_line_ids" t-as="line">
+						<tr>
+							<td style="border:1px solid black;font-size:16px;padding:5px;">
+								<t t-set="colcount" t-value="colcount +1" />
+									<span t-esc="colcount" />
+							</td>
+							<td style="border: 1px solid #4c4c4c;border-collapse: collapse;padding:5px">
+								<span t-esc="line.name" />
+							</td>
+							<td style="border: 1px solid #4c4c4c;border-collapse: collapse;padding:5px">
+								<span t-esc="line.hsn_sac_code" />
+							</td>
+							<td style="border: 1px solid #4c4c4c;border-collapse: collapse;padding:5px;text-align: center">
+								<span t-esc="line.quantity" />
+							</td>
+							<td style="border: 1px solid #4c4c4c;border-collapse: collapse;padding:5px;text-align: center">
+								<span t-esc="line.uom_id.name" />
+							</td>
+							<td style="border: 1px solid #4c4c4c;border-collapse: collapse;padding:5px;text-align: center">
+								<span t-esc="line.price_unit" />
+							</td>
+							<td style="border: 1px solid #4c4c4c;border-collapse: collapse;padding:5px;text-align: center">
+								<span t-esc="line.total_sale" /><t t-set="sale_total" t-value="sale_total+line.total_sale"></t>
+							</td>
+							<td style="border: 1px solid #4c4c4c;border-collapse: collapse;padding:5px;text-align: center;">
+								<span t-esc="line.gst_discount" /><t t-set="dis_total" t-value="dis_total+line.gst_discount"></t>
+							</td>
+							
+							<td style="border: 1px solid #4c4c4c;border-collapse: collapse;padding:5px">
+								<span t-esc="line.price_subtotal" /><t t-set="total_taxable" t-value="total_taxable+line.price_subtotal"></t>
+							</td>
+							<td style="border: 1px solid #4c4c4c;border-collapse: collapse;padding:5px">
+								 <span t-esc="line.cgst_rate" />
+							</td>
+							<td style="border: 1px solid #4c4c4c;border-collapse: collapse;padding:5px">
+								<span t-esc="line.cgst_amt" /> <t t-set="gst_amt" t-value="gst_amt+line.cgst_amt"></t>
+							</td>
+							<td style="height: 32px;border: 1px solid #4c4c4c;border-collapse: collapse;padding:5px">
+								<span t-esc="line.sgst_rate" />
+							</td>
+							<td style="height: 32px;border: 1px solid #4c4c4c;border-collapse: collapse;padding:5px;text-align: center">
+								<span t-esc="line.sgst_amt" /> <t t-set="sgst_amt" t-value="sgst_amt+line.sgst_amt"></t>
+							</td>
+							<td style="height: 32px;border: 1px solid #4c4c4c;border-collapse: collapse;padding:5px;text-align: center">
+								<span t-esc="line.igst_rate" />
+							</td>
+							<td style="height: 32px;border: 1px solid #4c4c4c;border-collapse: collapse;padding:5px;text-align: center">
+								<span t-esc="line.igst_amt" /><t t-set="igst_amt" t-value="igst_amt+line.igst_amt"></t>
+							</td>
+						</tr>
+					</t>
+					<tr>
+						<td colspan="6" style="height: 32px;border: 1px solid #4c4c4c;border-collapse: collapse;padding:5px;text-align: center">
+							<span> Total </span>
+						</td>
+						<td style="height: 32px;border: 1px solid #4c4c4c;border-collapse: collapse;padding:5px;text-align: center">
+							<span t-esc="sale_total" />
+						</td>
+						<td style="height: 32px;border: 1px solid #4c4c4c;border-collapse: collapse;padding:5px;text-align: center">
+							<span t-esc="dis_total" />
+						</td>
+						<td style="height: 32px;border: 1px solid #4c4c4c;border-collapse: collapse;padding:5px;text-align: center">
+							<span t-esc="total_taxable" />
+						</td>
+						
+						<td style="height: 32px;border: 1px solid #4c4c4c;border-collapse: collapse;padding:5px;text-align: center">
+						</td>
+						
+						<td  style="height: 32px;border: 1px solid #4c4c4c;border-collapse: collapse;padding:5px;text-align: center">
+							<span t-esc="gst_amt" />
+						</td>
+						<td style="height: 32px;border: 1px solid #4c4c4c;border-collapse: collapse;padding:5px;text-align: center">
+						</td>
+						
+						<td style="height: 32px;border: 1px solid #4c4c4c;border-collapse: collapse;padding:5px;text-align: center">
+							<span t-esc="sgst_amt" />
+						</td>
+						
+						<td style="height: 32px;border: 1px solid #4c4c4c;border-collapse: collapse;padding:5px;text-align: center">
+						</td>
+						
+						<td  style="height: 32px;border: 1px solid #4c4c4c;border-collapse: collapse;padding:5px;text-align: center">
+							<span t-esc="igst_amt" />
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			
+			
+			<table style="width:101%">
+				<tr>
+					<th colspan="4" class="full_border" style="padding:5px;font-size:16px;width: 48%;">Remarks: <span t-field="o.comment" /> </th>
+					<th style="padding:5px;font-size:16px;border:1px solid black;width: 39%;text-align:center">Summary</th>
+					<th style="padding:5px;font-size:16px;border:1px solid black;width: 15%;">Amount</th>
+				</tr>
+				
+				<tr>
+					<th colspan="4" style="padding:5px;font-size:16px;border:1px solid black;">Total : <span t-field="o.amt_in_words" /> </th>
+					<th style="padding:5px;font-size:16px;border:1px solid black;text-align:right">Total Invoice Value</th>
+					<td style="padding:5px;font-size:16px;border:1px solid black;text-align:right">
+						 <span t-field="o.total_sale" />
+					</td>
+				</tr>
+				
+				<tr>
+					
+					<th colspan="4" style="padding:5px;font-size:16px;border:1px solid black;"></th>
+					<th style="padding:5px;font-size:16px;border:1px solid black;text-align:right">Total Discounts</th>
+					<td style="padding:5px;font-size:16px;border:1px solid black;text-align:right">
+						 <span t-field="o.discount" />
+					</td>
+				</tr>
+				
+				<tr>
+					<th rowspan="2" style="padding:5px;font-size:16px;border:1px solid black;width: 20%;"></th>
+					<th rowspan="3" style="padding:5px;font-size:16px;border:1px solid black;width: 20%;"></th>
+					<th rowspan="2" style="padding:5px;font-size:16px;border:1px solid black;width: 20%;"></th>
+					<th style="padding:5px;font-size:16px;border:1px solid black;"></th>
+					<th style="padding:5px;font-size:16px;border:1px solid black;text-align:right">Total Invoice Value</th>
+					<td style="padding:5px;font-size:16px;border:1px solid black;text-align:right">
+						 <span t-field="o.amount_untaxed" />
+					</td>
+				</tr>
+				
+				<tr>
+					<th style="padding:5px;font-size:16px;border:1px solid black;"></th>
+					<th style="padding:5px;font-size:16px;border:1px solid black;text-align:right">Total CGST</th>
+					<td style="padding:5px;font-size:16px;border:1px solid black;text-align:right">
+						 <span t-field="o.cgst_amt" />
+					</td>
+				</tr>
+				
+				<tr>
+					<th style="padding:5px;font-size:16px;border:1px solid black;width: 20%;"> Receiver's Signature </th>
+					<th style="padding:5px;font-size:16px;border:1px solid black;width: 20%;">Senior Accounts Manager</th>
+					<th style="padding:5px;font-size:16px;border:1px solid black;width: 20%;"></th>
+					<th style="padding:5px;font-size:16px;border:1px solid black;text-align:right">Total SGST</th>
+					<td style="padding:5px;font-size:16px;border:1px solid black;text-align:right">
+						 <span t-field="o.sgst_amt" />
+					</td>
+				</tr>
+				
+				<tr>
+					<th colspan="4" rowspan="2" style="padding:5px;font-size:16px;border:1px solid black;text-align:center"></th>
+					<th style="padding:5px;font-size:16px;border:1px solid black;text-align:right">Total IGST</th>
+					<td style="padding:5px;font-size:16px;border:1px solid black;text-align:right">
+						 <span t-field="o.igst_amt" />
+					</td>
+				</tr>
+				<tr>
+					<th style="padding:5px;font-size:16px;border:1px solid black;text-align:right">Total Tax Amount </th>
+					<td style="padding:5px;font-size:16px;border:1px solid black;text-align:right">
+						 <span t-field="o.total_tax_amount" />
+					</td>
+				</tr>
+				<tr>
+					<th colspan="4" rowspan="3" style="padding:5px;font-size:16px;border:1px solid black;text-align:center">Thank you for your Business</th>
+					<th style="padding:5px;font-size:16px;border:1px solid black;text-align:right">Total Before Round ofl</th>
+					<td style="padding:5px;font-size:16px;border:1px solid black;text-align:right">
+						 <span t-field="o.total_before_bound_off" />
+					</td>
+				</tr>
+				<tr>
+					<th style="padding:5px;font-size:16px;border:1px solid black;text-align:right">Round Off(-)</th>
+					<td style="padding:5px;font-size:16px;border:1px solid black;text-align:right">
+						 <span t-field="o.round_off" />
+					</td>
+				</tr>
+				<tr>
+					<th style="padding:5px;font-size:16px;border:1px solid black;text-align:right">Grand Total</th>
+					<td style="padding:5px;font-size:16px;border:1px solid black;text-align:right">
+						 <span t-field="o.amount_total" />
+					</td>
+				</tr>
+			</table>
+			
+            <p t-if="o.comment">
+                <strong>Comment:</strong>
+                <span t-field="o.comment"/>
+            </p>
+            <!-- <p t-if="o.payment_term_id">
+                <span t-field="o.payment_term_id.note"/>
+            </p> -->
+            <p t-if="o.fiscal_position_id.note">
+                <strong>Fiscal Position Remark:</strong>
+                <span t-field="o.fiscal_position_id.note"/>
+            </p>
+        </div>
+    </t>
+</template>
+
+<template id="account.report_invoice">
+    <t t-call="report.html_container">
+        <t t-foreach="docs" t-as="o">
+            <t t-call="account.report_invoice_document" t-lang="o.partner_id.lang"/>
+        </t>
+    </t>
+</template>
+
+<template id="account.account_invoice_report_duplicate" inherit_id="account.report_invoice_document" primary="True">
+    <xpath expr="//h2" position="replace">
+        <h2>
+            <span>Duplicate</span>
+            <span t-field="o.number"/>
+        </h2>
+    </xpath>
+</template>
+
+<template id="account.account_invoice_report_duplicate_main">
+    <t t-call="report.html_container">
+        <t t-foreach="docs" t-as="o">
+            <t t-call="account.account_invoice_report_duplicate" t-lang="o.partner_id.lang"/>
+        </t>
+    </t>
+</template>
+</data>
+</odoo>
