@@ -37,6 +37,7 @@
         'report/inherited_sale_report_template.xml',
         'views/menus.xml'
     ],
+    'images': ['static/description/banner.png'],
     'installable': True,
     'auto_install': False,
 }
