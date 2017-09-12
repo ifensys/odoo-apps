@@ -4,10 +4,25 @@ from openerp import fields, models, api, _
 from datetime import datetime
 from datetime import date, timedelta
 from openerp.tools import amount_to_text_en
+from lxml import etree
 
 class AccountInvoice(models.Model):
     _inherit = "account.invoice"
     _description = 'Account Invoice Details'
+    
+    def fields_view_get(self, cr, uid, view_id=None, view_type='form', context=None, toolbar=False, submenu=False):
+        res = models.Model.fields_view_get(self, cr, uid, view_id=view_id, view_type=view_type, context=context, toolbar=toolbar, submenu=submenu)
+        if view_type == 'form':
+            doc = etree.XML(res['arch'])
+            for sheet in doc.xpath("//sheet"):
+                parent = sheet.getparent()
+                index = parent.index(sheet)
+                for child in sheet:
+                    parent.insert(index, child)
+                    index += 1
+                parent.remove(sheet)
+            res['arch'] = etree.tostring(doc)
+        return res
     
     @api.one
     @api.depends('invoice_line_ids.price_subtotal', 'tax_line_ids.amount', 'currency_id', 'company_id', 'date_invoice')

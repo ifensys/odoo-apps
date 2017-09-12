@@ -27,7 +27,7 @@
     'author':'iFenSys Software Solutions',
     'company':'iFenSys Software Solutions Pvt. Ltd',
     'website': 'http://www.ifensys.com',
-    'depends': ['base','sale','sale_stock','account','account_accountant'],
+    'depends': ['base','sale','account','account_accountant'],
     'data': [
         'security/ir.model.access.csv',
         'views/sale/inherited_sale_views.xml',

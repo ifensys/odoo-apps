@@ -107,7 +107,7 @@
                                             </div>
                                         </group>
                                         <group>
-                                            <field name="tax_id" widget="many2many_tags" domain="[('type_tax_use','=','sale'),('company_id','=',parent.company_id)]"
+                                        	<field name="tax_id" widget="many2many_tags" domain="[('type_tax_use','=','sale'),('company_id','=',parent.company_id)]"
                                                 attrs="{'readonly': [('qty_invoiced', '&gt;', 0)]}" invisible="1"/>
                                             <!--Added New field  -->
                                              <field name="cgst_rate" />
@@ -164,7 +164,6 @@
                                     <field name="cgst_rate" />
 							   		<field name="cgst_amt" />
 							   		<field name="sgst_rate" />
-							   		<field name="sgst_amt" />
 							   		<field name="igst_rate" />
 							   		<field name="igst_amt" />
                                     <field name="qty_delivered_updateable" invisible="1"/>
