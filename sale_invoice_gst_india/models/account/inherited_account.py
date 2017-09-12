@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 
-from odoo import models, fields, api
-from odoo.tools import float_is_zero, float_compare
-from odoo.tools import amount_to_text_en
+from openerp import fields, models, api, _ 
+from datetime import datetime
+from datetime import date, timedelta
+from openerp.tools import amount_to_text_en
 
 class AccountInvoice(models.Model):
     _inherit = "account.invoice"
@@ -73,10 +74,10 @@ class AccountInvoice(models.Model):
     discount = fields.Monetary(string='Total Discounts', store=True, readonly=True, compute='_compute_amount')
     amt_in_words = fields.Text('Amount In Words')
     
-    transport_mode = fields.Selection([('air','AIR'), ('road','ROAD'), ('rail','RAIL'), ('other','OTHER')], string="Transport Mode", required=True)
-    transport_company = fields.Char('Transport By', required=True)
+    transport_mode = fields.Selection([('air','AIR'), ('road','ROAD'), ('rail','RAIL'), ('other','OTHER')], string="Transport Mode")
+    transport_company = fields.Char('Transport By')
     contact_number = fields.Char('Contact Number')
-    
+        
     @api.model
     def invoice_line_move_line_get(self):
         res = []
@@ -94,7 +95,7 @@ class AccountInvoice(models.Model):
                 'name': line.name.split('\n')[0][:64],
                 'price_unit': line.price_unit,
                 'quantity': line.quantity,
-                'price': int(line.price_subtotal + line.cgst_amt + line.sgst_amt + line.igst_amt),
+                 'price': int(line.price_subtotal + line.cgst_amt + line.sgst_amt + line.igst_amt),
                 'account_id': line.account_id.id,
                 'product_id': line.product_id.id,
                 'uom_id': line.uom_id.id,
@@ -166,7 +167,7 @@ class AccountInvoiceLine(models.Model):
             else:
                 record.igst_amt = 0.0
             
-    @api.onchange('gst_discount','price_unit', 'quantity')
+    @api.onchange('gst_discount')
     def onchange_gst_discount(self):
         amt = 0.0;
         if self.gst_discount:

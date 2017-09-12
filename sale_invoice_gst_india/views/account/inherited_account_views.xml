@@ -73,7 +73,6 @@
                                         domain="[('company_id', '=', parent.company_id), ('internal_type', '=', 'other')]" invisible="1"/>
                                     <field name="account_analytic_id" groups="analytic.group_analytic_accounting"
                                         domain="[('company_id', '=', parent.company_id)]"/>
-                                    <field name="analytic_tag_ids" groups="analytic.group_analytic_accounting" widget="many2many_tags"/>
                                     <field name="quantity"/>
                                     <field name="uom_id" groups="product.group_uom"/>
                                     <field name="price_unit"/>
@@ -135,7 +134,6 @@
                                 <field name="outstanding_credits_debits_widget" colspan="2" nolabel="1" widget="payment" attrs="{'invisible': [('state', 'not in', 'open')]}"/>
                             </group>
                             <field name="comment" class="oe_inline" placeholder="Terms and conditions..."/>
-                            <div class="oe_clear"/>
                             <field name="amt_in_words" class="oe_inline" placeholder="Amount In Words"/>
                             <div class="oe_clear"/>
                         </page>

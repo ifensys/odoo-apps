@@ -7,7 +7,7 @@
 			<field name="name">gst.configuration.tree</field>
 			<field name="model">gst.configuration</field>
 			<field name="arch" type="xml">
-				<tree string="GST Configuration">
+				<tree string="GST Number">
 					<field name="name" />
 				</tree>
 			</field>
@@ -49,7 +49,7 @@
 			<field name="search_view_id" ref="view_gst_configuration_filter"/>
 			<field name="help" type="html">
 				<p class="oe_view_nocontent_create">
-					Click to add a new GST number.
+					Click to add a new GST details.
 				</p>
 			</field>
 		</record>
@@ -103,7 +103,7 @@
 			<field name="search_view_id" ref="view_our_gst_configuration_filter"/>
 			<field name="help" type="html">
 				<p class="oe_view_nocontent_create">
-					Click to add a new GST number.
+					Click to add a new GST details.
 				</p>
 			</field>
 		</record>

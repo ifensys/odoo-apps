@@ -2,11 +2,12 @@
 <odoo>
 	<data>
         
+        
         <record id="sale.view_order_form" model="ir.ui.view">
             <field name="name">sale.order.form</field>
             <field name="model">sale.order</field>
             <field name="arch" type="xml">
-                <form string="Sales Order" class="o_sale_order">
+                <form string="Sales Order">
                 <header>
                     <button name="%(sale.action_view_sale_advance_payment_inv)d" string="Create Invoice"
                         type="action" class="btn-primary"
@@ -15,16 +16,16 @@
                         type="action" context="{'default_advance_payment_method': 'percentage'}"
                         attrs="{'invisible': ['|',('invoice_status', '!=', 'no'), ('state', '!=', 'sale')]}"/>
                     <button name="action_quotation_send" string="Send by Email" type="object" states="draft" class="btn-primary"/>
-                    <button name="print_quotation" string="Print" type="object" states="draft" class="btn-primary"/>
-                    <button name="action_confirm" states="sent" string="Confirm Sale" class="btn-primary o_sale_confirm" type="object" />
-                    <button name="action_confirm" states="draft" string="Confirm Sale" class="o_sale_confirm" type="object" />
-                    <button name="print_quotation" string="Print" type="object" states="sent,sale"/>
                     <button name="action_quotation_send" string="Send by Email" type="object" states="sent,sale"/>
+                    <button name="print_quotation" string="Print" type="object" states="draft" class="btn-primary"/>
+                    <button name="print_quotation" string="Print" type="object" states="sent,sale"/>
+                    <button name="action_confirm" states="sent" string="Confirm Sale" class="btn-primary" type="object" context="{'show_sale': True}"/>
+                    <button name="action_confirm" states="draft" string="Confirm Sale" type="object" context="{'show_sale': True}"/>
                     <button name="action_cancel" states="draft,sent,sale" type="object" string="Cancel"/>
                     <button name="action_draft" states="cancel" type="object" string="Set to Quotation"/>
-                    <button name="action_done" type="object" string="Lock" states="sale"
-                        help="If the sale is locked, you can not modify it anymore. However, you will still be able to invoice or deliver."/>
-                    <field name="state" widget="statusbar" statusbar_visible="draft,sent,sale"/>
+                    <button name="action_done" type="object" string="Set to Done" states="sale"
+                        help="If a sale order is done, you cannot modify it manually anymore. However, you will still be able to invoice or deliver. This is used to freeze the sale order."/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,sent,sale,done"/>
                 </header>
                     <div class="oe_button_box" name="button_box">
                         <button name="action_view_invoice"
@@ -45,18 +46,18 @@
                             <field name="partner_id" domain="[('customer','=',True)]" context="{'search_default_customer':1, 'show_address': 1}" options='{"always_reload": True}'/>
                             <field name="partner_invoice_id" groups="sale.group_delivery_invoice_address" context="{'default_type':'invoice'}"/>
                             <field name="partner_shipping_id" groups="sale.group_delivery_invoice_address" context="{'default_type':'delivery'}"/>
-                            <!--Added New field  -->
+                             <!--Added New field  -->
                             <field name="gst_number_id" />
                             <field name="our_gst_number_id" />
-                            <field name="transport_mode" required="1"/>
-                            <field name="transport_company" required="1"/>
+                            <field name="transport_mode"/>
+                            <field name="transport_company"/>
+                            <field name="project_id" context="{'default_partner_id':partner_invoice_id, 'default_name':name}" groups="analytic.group_analytic_accounting"/>
                         </group>
                         <group>
-                            <field name="date_order" attrs="{'invisible': [('state', 'in', ['sale', 'done', 'cancel'])]}"/>
-                            <field name="validity_date" attrs="{'invisible': [('state', 'in', ['sale', 'done'])]}"/>
-                            <field name="confirmation_date" attrs="{'invisible': [('state', 'in', ['draft', 'sent', 'cancel'])]}"/>
+                            <field name="date_order" invisible="1"/>
                             <field name="pricelist_id" groups="product.group_sale_pricelist"/>
                             <field name="currency_id" invisible="1"/>
+                            <field name="validity_date"/>
                             <field name="payment_term_id" options="{'no_create': True}"/>
                         </group>
                     </group>
@@ -71,9 +72,8 @@
                                                 context="{'partner_id':parent.partner_id, 'quantity':product_uom_qty, 'pricelist':parent.pricelist_id, 'uom':product_uom, 'company_id': parent.company_id}"
                                                 attrs="{'readonly': ['|', ('qty_invoiced', '&gt;', 0), ('procurement_ids', '!=', [])]}"
                                                />
-                                             <!--Added New field  -->
+                                            <!--Added New field  -->
                                             <field name="hsn_sac_code" />
-                                            <field name="layout_category_id" groups="sale.group_sale_layout"/>
                                             <field name="invoice_status" invisible="1"/>
                                             <field name="qty_to_invoice" invisible="1"/>
                                             <field name="qty_delivered_updateable" invisible="1"/>
@@ -84,31 +84,32 @@
                                                 <field
                                                     context="{'partner_id':parent.partner_id, 'quantity':product_uom_qty, 'pricelist':parent.pricelist_id, 'uom':product_uom, 'uom_qty_change':True, 'company_id': parent.company_id}"
                                                     name="product_uom_qty" class="oe_inline"/>
-                                                <field name="product_uom" string="Unit" groups="product.group_uom" class="oe_inline oe_no_button"
+                                                <field name="product_uom" groups="product.group_uom" class="oe_inline oe_no_button"
                                                     attrs="{'readonly': [('state', 'in', ('sale','done', 'cancel'))]}"/>
                                             </div>
-                                            <label for="qty_delivered" string="Delivered Quantity" invisible="context.get('hide_sale')"/>
-                                            <div invisible="context.get('hide_sale')">
-                                                <field name="qty_delivered" attrs="{'readonly': [('qty_delivered_updateable', '=', False)]}"/>
+                                            <label for="qty_delivered" string="Delivered Quantity"
+                                                invisible="not context.get('show_sale')"/>
+                                            <div>
+                                                <field name="qty_delivered" invisible="not context.get('show_sale')"
+                                                    attrs="{'readonly': [('qty_delivered_updateable', '=', False)]}"/>
                                             </div>
-                                            <label for="qty_invoiced" string="Invoiced Quantity" invisible="context.get('hide_sale')"/>
-                                            <div invisible="context.get('hide_sale')">
-                                                <field name="qty_invoiced" invisible="context.get('hide_sale')"/>
+                                            <label for="qty_invoiced" string="Invoiced Quantity" invisible="not context.get('show_sale')"/>
+                                            <div>
+                                                <field name="qty_invoiced" invisible="not context.get('show_sale')"/>
                                             </div>
                                             <field name="price_unit" string="Rate"/>
                                             <!--Added New field  -->
                                             <field name="total_sale" />
 			   								<field name="gst_discount" />
-			   								
                                             <label for="discount" groups="sale.group_discount_per_so_line" invisible="1"/>
-                                            <div name="discount" groups="sale.group_discount_per_so_line" invisible="1">
-                                                <field name="discount" class="oe_inline"/> %%
+                                            <div name="discount" groups="sale.group_discount_per_so_line">
+                                                <field name="discount" class="oe_inline" invisible="1"/> %%
                                             </div>
                                         </group>
                                         <group>
                                             <field name="tax_id" widget="many2many_tags" domain="[('type_tax_use','=','sale'),('company_id','=',parent.company_id)]"
                                                 attrs="{'readonly': [('qty_invoiced', '&gt;', 0)]}" invisible="1"/>
-                                             <!--Added New field  -->
+                                            <!--Added New field  -->
                                              <field name="cgst_rate" />
 										   	 <field name="cgst_amt" />
 										   	 <field name="sgst_rate" />
@@ -118,10 +119,6 @@
                                             <label for="customer_lead"/>
                                             <div>
                                                 <field name="customer_lead" class="oe_inline"/> days
-                                            </div>
-                                            <label for="analytic_tag_ids"/>
-                                            <div>
-                                                <field name="analytic_tag_ids" widget="many2many_tags"/>
                                             </div>
                                         </group>
                                     </group>
@@ -133,30 +130,28 @@
                                     </div>
                                     <field name="state" invisible="1"/>
                                 </form>
-                                <tree string="Sales Order Lines" decoration-info="invoice_status=='to invoice'" class="">
+                                <tree string="Sales Order Lines" decoration-info="invoice_status=='to invoice'">
                                     <field name="sequence" widget="handle"/>
                                     <field name="product_id"
                                         attrs="{'readonly': ['|', ('qty_invoiced', '&gt;', 0), ('procurement_ids', '!=', [])]}"
                                         context="{'partner_id':parent.partner_id, 'quantity':product_uom_qty, 'pricelist':parent.pricelist_id, 'uom':product_uom, 'company_id': parent.company_id}"
                                        />
-                                    <field name="layout_category_id" groups="sale.group_sale_layout"/>
                                     <field name="name"/>
-                                    <!--Added New field  -->
+                                     <!--Added New field  -->
                                     <field name="hsn_sac_code"/>
                                     <field name="product_uom_qty"
                                         string="Qty"
                                         context="{'partner_id':parent.partner_id, 'quantity':product_uom_qty, 'pricelist':parent.pricelist_id, 'uom':product_uom, 'company_id': parent.company_id}"
                                     />
-                                    <field name="qty_delivered" invisible="context.get('hide_sale')"
+                                    <field name="qty_delivered" invisible="not context.get('show_sale')"
                                         attrs="{'readonly': [('qty_delivered_updateable', '=', False)]}"/>
                                     <field name="qty_invoiced"
-                                        invisible="context.get('hide_sale')"/>
+                                        invisible="not context.get('show_sale')"/>
                                     <field name="qty_to_invoice" invisible="1"/>
                                     <field name="product_uom" string="Unit"
                                         attrs="{'readonly': [('state', 'in', ('sale','done', 'cancel'))]}"
                                         context="{'company_id': parent.company_id}"
                                         groups="product.group_uom" options='{"no_open": True}'/>
-                                    <field name="analytic_tag_ids" groups="analytic.group_analytic_accounting" widget="many2many_tags"/>
                                     <field name="price_unit" string="Rate"
                                         attrs="{'readonly': [('qty_invoiced', '&gt;', 0)]}"/>
                                     <field name="total_sale" />
@@ -164,16 +159,14 @@
                                     <field name="tax_id" widget="many2many_tags" domain="[('type_tax_use','=','sale'),('company_id','=',parent.company_id)]"
                                         attrs="{'readonly': [('qty_invoiced', '&gt;', 0)]}" invisible="1"/>
                                     <field name="discount" groups="sale.group_discount_per_so_line" invisible="1"/>
-                                    <field name="price_subtotal" widget="monetary" groups="sale.group_show_price_subtotal" string="Taxable Value"/>
-                                    <!--Added New field  -->
+                                    <field name="price_subtotal" widget="monetary" string="Taxable Value"/>
+                                     <!-- Added New field  -->
                                     <field name="cgst_rate" />
 							   		<field name="cgst_amt" />
 							   		<field name="sgst_rate" />
 							   		<field name="sgst_amt" />
 							   		<field name="igst_rate" />
 							   		<field name="igst_amt" />
-							   		
-                                    <field name="price_total" widget="monetary" groups="sale.group_show_price_total"/>
                                     <field name="qty_delivered_updateable" invisible="1"/>
                                     <field name="procurement_ids" invisible="1"/>
                                     <field name="state" invisible="1"/>
@@ -207,7 +200,7 @@
                                 </kanban>
                             </field>
                             <group class="oe_subtotal_footer oe_right" colspan="2" name="sale_total">
-                            	<field name="total_sale" string="Total Invoice Value"/>
+                                <field name="total_sale" string="Total Invoice Value"/>
                             	<field name="discount" />
                                 <field name="amount_untaxed" widget='monetary' options="{'currency_field': 'currency_id'}" string="Total Taxable Value"/>
                                 <field name="amount_tax" widget='monetary' options="{'currency_field': 'currency_id'}" invisible="1"/>
@@ -218,29 +211,23 @@
 						   		<field name="total_before_bound_off" />
 						   		<field name="round_off" />
                                 <div class="oe_subtotal_footer_separator oe_inline o_td_label">
-                                    <label for="amount_total"  string="Grand Total"/>
+                                    <label for="amount_total" />
                                     <button name="button_dummy"
                                         states="draft,sent" string="(update)" type="object" class="oe_edit_only oe_link"/>
                                 </div>
                                 <field name="amount_total" nolabel="1" class="oe_subtotal_footer_separator" widget='monetary' options="{'currency_field': 'currency_id'}"/>
                             </group>
                             <field name="note" class="oe_inline" placeholder="Setup default terms and conditions in your company settings."/>
-                            <div class="oe_clear"/>
                             <field name="amt_in_words" class="oe_inline" placeholder="Amount In Words"/>
                             <div class="oe_clear"/>
                         </page>
                         <page string="Other Information">
                             <group>
                                 <group string="Sales Information" name="sales_person">
-                                    <field name="user_id"/>
+                                    <field name="user_id" context="{'default_groups_ref': ['base.group_user', 'base.group_partner_manager', 'account.group_account_invoice', 'base.group_sale_salesman_all_leads']}"/>
                                     <field name="team_id" options="{'no_create': True}"/>
                                     <field name="client_order_ref"/>
                                     <field name="company_id" options="{'no_create': True}" groups="base.group_multi_company"/>
-                                    <field name="project_id" attrs="{'invisible':[('state','=','sale')]}" context="{'default_partner_id':partner_invoice_id, 'default_name':name}" groups="analytic.group_analytic_accounting"/>
-                                    <field name="related_project_id"
-                                           attrs="{'readonly': ['|',('project_id','!=',False),('invoice_count','!=',0),('state','=','sale')],'invisible':[('state','!=','sale')]}"
-                                           context="{'default_partner_id':partner_invoice_id, 'default_name':name}"
-                                           groups="analytic.group_analytic_accounting"/>
                                 </group>
                                 <group name="sale_pay" string="Invoicing">
                                     <field name="fiscal_position_id" options="{'no_create': True}"/>
@@ -261,12 +248,13 @@
             </field>
         </record>
         
+        
         <!-- Gst Number form view  -->
 		<record id="gst_configuration_view_tree" model="ir.ui.view">
 			<field name="name">gst.configuration.tree</field>
 			<field name="model">gst.configuration</field>
 			<field name="arch" type="xml">
-				<tree string="Gst Configuration">
+				<tree string="Gst Number">
 					<field name="name" />
 				</tree>
 			</field>
@@ -276,7 +264,7 @@
 			<field name="name">gst.configuration.form</field>
 			<field name="model">gst.configuration</field>
 			<field name="arch" type="xml">
-				<form string="Gst Confiuration">
+				<form string="Gst Number">
 					<sheet>
 						<group>
 							<group>
@@ -293,14 +281,14 @@
 			<field name="name">gst.configuration.select</field>
 			<field name="model">gst.configuration</field>
 			<field name="arch" type="xml">
-				<search string="Gst Confiuration">
+				<search string="Gst Number">
 					<field name="name"/>
 			   </search>
 			</field>
 		</record>
 
 		<record id="gst_configuration_action" model="ir.actions.act_window">
-			<field name="name">Gst Confiuration</field>
+			<field name="name">Gst Number</field>
 			<field name="type">ir.actions.act_window</field>
 			<field name="res_model">gst.configuration</field>
 			<field name="view_type">form</field>
@@ -320,7 +308,7 @@
 			<field name="name">our.gst.configuration.tree</field>
 			<field name="model">our.gst.configuration</field>
 			<field name="arch" type="xml">
-				<tree string="Our Gst Configuration">
+				<tree string="Our Gst Number">
 					<field name="name" />
 				</tree>
 			</field>
@@ -330,7 +318,7 @@
 			<field name="name">our.gst.configuration.form</field>
 			<field name="model">our.gst.configuration</field>
 			<field name="arch" type="xml">
-				<form string="Our Gst Confiuration">
+				<form string="Our Gst Number">
 					<sheet>
 						<group>
 							<group>
@@ -347,14 +335,14 @@
 			<field name="name">our.gst.configuration.select</field>
 			<field name="model">our.gst.configuration</field>
 			<field name="arch" type="xml">
-				<search string="Our Gst Confiuration">
+				<search string="Our Gst Number">
 					<field name="name"/>
 			   </search>
 			</field>
 		</record>
 
 		<record id="our_gst_configuration_action" model="ir.actions.act_window">
-			<field name="name">Our Gst Confiuration</field>
+			<field name="name">Our Gst Number</field>
 			<field name="type">ir.actions.act_window</field>
 			<field name="res_model">our.gst.configuration</field>
 			<field name="view_type">form</field>

@@ -21,13 +21,13 @@
 ##############################################################################
 {
     'name': 'Sale Invoice GST India',
-    'version': "10.0.1.0.0",
+    'version': "1.0",
     'summary': 'Sale Invoice GST India',
     'category': 'Sales',
     'author':'iFenSys Software Solutions',
     'company':'iFenSys Software Solutions Pvt. Ltd',
     'website': 'http://www.ifensys.com',
-    'depends': ['base','sale','account'],
+    'depends': ['base','sale','sale_stock','account','account_accountant'],
     'data': [
         'security/ir.model.access.csv',
         'views/sale/inherited_sale_views.xml',
