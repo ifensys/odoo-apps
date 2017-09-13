@@ -24,7 +24,7 @@
     'version': "1.0",
     'summary': 'Sale Invoice GST India',
     'category': 'Sales',
-    'author':'iFenSys Software Solutions',
+    'author':'iFenSys Software Solutions Pvt. Ltd',
     'company':'iFenSys Software Solutions Pvt. Ltd',
     'website': 'http://www.ifensys.com',
     'depends': ['base','sale','account','account_accountant'],
